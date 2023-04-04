@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 {%  extends 'base.html' %}
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,13 +12,23 @@
 
 <!-- including bootstrap necessities and standard navigation header-->
 {% block content %}
-
+<div style="display:inline-flex; height: 450px; width: 100%; background-color: #000066;">
+    <div style="overflow: hidden; height: 450px; width: 70%;">
+        <img class= "rounded" src="{% static 'CYCImage.jpg' %}" style="margin: -75px 0 0 0;">
+    </div>
+    <div>
+        <img class="rounded-circle border border-success" src ="{% static 'sailboats.jpg' %}" style="margin-left: 12.5%; margin-top:15%">
+        <p style=" color: white;text-align: center;margin-left: 18%; font-family: Georgia; font-size: 200%;margin-top: 5%;"> Come Sail with Us</p>
+    </div>
+</div>
+    <div style="background-color: darkred; height: 30px;">
+    </div>
 
 
 <!-- Simple Header Labeling the Articles and how they are sorted  -->
 <div style="text-align: center; margin: 5px;">
-    <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color: rgba(25,135,84)">
-<h1 style="color:white;">Articles:</h1>
+    <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color: #000066;">
+<h1 style="color:white;">Upcoming Events:</h1>
     <hr style="margin: 0em;">
     <!-- Depending on the existence of the "sort" url parameter print corresponding description -->
     {% if 'sort' in request.GET %}
@@ -33,9 +45,17 @@
 <!-- Setup for the button to flip the ordering of the post on the homepage-->
 <div style="margin-top: -5px;  margin-right: 5px">
     {% if 'sort' in request.GET %}
-         <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+        {% if 'sorth' in request.GET %}
+         <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            {% else %}
+            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+        {% endif %}
         {% else %}
-    <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+        {% if 'sorth' in request.GET %}
+    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            {% else %}
+            <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            {% endif %}
    {% endif %}
     </div>
     </div>
@@ -94,6 +114,34 @@
             {% endif %}
         {% endfor %}
 {% endif %}
+
+    <div style="text-align: center; margin: 5px;">
+    <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color:#000066">
+<h1 style="color:white;">Event History:</h1>
+    <hr style="margin: 0em;">
+    <!-- Depending on the existence of the "sort" url parameter print corresponding description -->
+    {% if 'sorth' in request.GET %}
+        <div style="text-align: center;"><small id = "sortHeader" style="color: white;">Earliest</small></div>
+        {% else %}
+        <div style="text-align: center;"><small id = "sortHeader" style="color: white;">Most Recent</small></div>
+{% endif %}
+    </div>
+</div>
+    <div style="margin-top: -5px;  margin-right: 5px">
+    {% if 'sorth' in request.GET %}
+        {% if 'sort' in request.GET %}
+         <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            {% else %}
+            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+        {% endif %}
+        {% else %}
+        {% if 'sort' in request.GET %}
+    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            {% else %}
+            <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            {% endif %}
+   {% endif %}
+    </div>
 
 {% endblock %}
 </body>
