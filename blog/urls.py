@@ -4,7 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('', Home.as_view(), name="homepage"),
-    path('posts/<int:pk>', Detail.as_view(), name="detailed_post"),
+    path('events/<int:pk>', Detail.as_view(), name="detailed_post"),
     #This url goes unused in this program
     path('add_post/', addPost.as_view(), name ='add_post'),
 
@@ -12,6 +12,7 @@ urlpatterns = [
     #they know where to return to after completing their tasks.
     path('upVote/<int:pk>', upVote, name = 'upvote'),
     path('downVote/<int:pk>', downVote, name = 'downvote')
+
 
 ]
 

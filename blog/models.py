@@ -2,11 +2,12 @@ from django.db import models
 from django.urls import reverse
 
 #Post Model
-class Post(models.Model):
+class Event(models.Model):
     heroHeader = models.ImageField(upload_to ='uploads/', default=None, blank=True)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     body = models.TextField()
+    event_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     #Auto Increments on every visit of the Detailed Post page.
@@ -25,7 +26,7 @@ class Post(models.Model):
         return reverse('detailed_post', args=[str(self.id)])
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, related_name= "comments", on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, related_name= "comments", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -36,7 +37,7 @@ class Comment(models.Model):
 
     #Basic Object to string method
     def __str__(self):
-        return self.post.title + ' by ' + str(self.name)
+        return self.event.title + ' by ' + str(self.name)
 
 
 

@@ -19,15 +19,15 @@
     Standardized 500 px height. Will center the image based on its width.
     If width is larger than the screen's size, image is shrunk to fit.
     -->
-    <div style="text-align: center;"><img src ="../media/{{ post.heroHeader}}" alt = "heroHeader" class = "rounded"
+    <div style="text-align: center;"><img src ="../media/{{ event.heroHeader}}" alt = "heroHeader" class = "rounded"
     style="max-width:100%;width: auto; height: 500px"></div>
     <!-- Article Content and Running Stats -->
     <div class = "form-control rounded border-success p-1 mb-2" style="margin: 25px; max-width: 96%;margin-left: 2%">
-<h1>{{ post.title }}</h1>
-<h2>By: {{ post.author}}</h2>
-    <small>Posted: {{ post.created_at }} </small><small style="float:right; margin-right: 5px;">Viewed: {{ post.viewCount }}</small>
+<h1>{{ event.title }}</h1>
+<h2>By: {{ event.author}}</h2>
+    <small>Posted: {{ event.created_at }} </small><small style="float:right; margin-right: 5px;">Viewed: {{ event.viewCount }}</small>
 <hr>
-<p>{{ post.body }}</p>
+<p>{{ event.body }}</p>
     </div>
 
     <!-- Add comment Form
@@ -82,12 +82,12 @@ Newer Comments appear closer to top
             {% endwith %}
 
             <!-- Button for upvoting, submits form that increments specific comments Upvote count-->
-            <form action = "{% url 'upvote' post.pk %}" method="POST">
+            <form action = "{% url 'upvote' event.pk %}" method="POST">
                 {% csrf_token %}
                 <button class = "btn btn-success" style="display:flex; margin: 5px;" type="submit" value="{{ comment.id }}" name="upvoteID">upvote</button>
             </form>
             <!-- Button for downvoting, submits form that decrements specific comments Downvote count-->
-            <form action = "{% url 'downvote' post.pk %}" method="POST">
+            <form action = "{% url 'downvote' event.pk %}" method="POST">
                 {% csrf_token %}
                 <button class = "btn btn-success" style="display:flex; margin: 5px;" type="submit" value="{{ comment.id }}" name="downvoteID">downvote</button>
             </form>

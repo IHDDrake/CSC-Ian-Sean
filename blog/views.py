@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView
 from django.http import HttpResponseRedirect
-from .models import Post, Comment
+from .models import Event, Comment
 from .forms import CommentForm
 
 
@@ -10,7 +10,7 @@ from .forms import CommentForm
 #It is ordered by negative creation time. This results in the object_list being
 #ordered with the most recent posts at the top
 class Home(ListView):
-    model = Post
+    model = Event
     template_name = 'homepage.html'
     ordering = ['-created_at']
 
@@ -20,7 +20,7 @@ class Home(ListView):
 #a function to correctly point the url to the right post,
 #and a function to ensure that forms are submitted correctly
 class Detail(DetailView, CreateView):
-    model = Post
+    model = Event
     form_class = CommentForm
     template_name = 'postDetails.html'
     def get_object(self):
@@ -38,7 +38,7 @@ class Detail(DetailView, CreateView):
 
 #This class-based view goes unused in the final product. It remains for the purpose of remimplementation upon request
 class addPost(CreateView):
-    model = Post
+    model = Event
     template_name = 'addPost.html'
     fields = '__all__'
 
@@ -50,12 +50,12 @@ class addPost(CreateView):
 #An improvement that can be made for these functions is the inclusion of handling a failed search.
 #i.e. if get_object_or_404 doesn't retrieve whats it is asked to.
 def upVote(request, pk):
-    comment = get_object_or_404(Comment, id=request.POST.get('upvoteID'))
+    comment = get_object_or_404(Comment, id=request.EVENT.get('upvoteID'))
     comment.upVote += 1
     comment.save()
     return HttpResponseRedirect(reverse('detailed_post', args=[str(pk)]))
 def downVote(request, pk):
-    comment = get_object_or_404(Comment, id=request.POST.get('downvoteID'))
+    comment = get_object_or_404(Comment, id=request.EVENT.get('downvoteID'))
     comment.downVote -= 1
     comment.save()
     return HttpResponseRedirect(reverse('detailed_post', args=[str(pk)]))
