@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView
 from django.http import HttpResponseRedirect
-from .models import Event, Comment
-from .forms import CommentForm
+from .models import Event, Comment, Boat
+from .forms import CommentForm, BoatForm
+from django.contrib.auth.models import User
 
 
 #This is the class-based view for a very simple homepage.
@@ -42,6 +43,17 @@ class addPost(CreateView):
     template_name = 'addPost.html'
     fields = '__all__'
 
+class addBoat(CreateView, ListView):
+    model = Boat
+    form_class = BoatForm
+    template_name = 'addBoat.html'
+    
+    
+    def form_valid(self, form):
+        candidate = form.save(commit=False)
+        candidate.owner = User.objects.get(pk=self.request.user.pk)  # use your own profile here
+        candidate.save()
+        return HttpResponseRedirect(reverse('homepage'))
 
 
 # These are the two function based views. They have no associated template and allow for the functionality

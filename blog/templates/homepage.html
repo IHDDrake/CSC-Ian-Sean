@@ -2,6 +2,7 @@
 
 {%  extends 'base.html' %}
 {% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -46,15 +47,15 @@
 <div style="margin-top: -5px;  margin-right: 5px">
     {% if 'sort' in request.GET %}
         {% if 'sorth' in request.GET %}
-         <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+         <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% else %}
-            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
         {% endif %}
         {% else %}
         {% if 'sorth' in request.GET %}
-    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% else %}
-            <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% endif %}
    {% endif %}
     </div>
@@ -71,12 +72,14 @@
         <!-- flipped for loop to iterate through post and print in standard format -->
     {% for post in object_list reversed%}
     {% if post.pubStatus %}
+    {% if post.event_time != timezone.now %}
+    
          <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
 
         <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
          style="max-width: 140px; width: auto; height: 50px; float:left"></div>
         <div style="display: inline-block;">
-            {{post.title}} - {{post.author}}- Posted: {{ post.created_at }}
+            {{post.title}} - {{post.author}}- Posted: {{ post.created_at }} {{todays_date}}
             <br/>
             <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
         </div>
@@ -86,6 +89,7 @@
         </div>
          </div>
     </div>
+    {% endif %}
 {% endif  %}
 {% endfor%}
 
@@ -95,6 +99,7 @@
 <!-- for loop to iterate through post and print in standard format -->
         {% for post in object_list %}
             {% if post.pubStatus %}
+            
             <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
 
             <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" >
@@ -111,9 +116,15 @@
             </div>
             </div>
             </div>
+            
             {% endif %}
         {% endfor %}
 {% endif %}
+
+
+
+
+
 
     <div style="text-align: center; margin: 5px;">
     <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color:#000066">
@@ -130,19 +141,74 @@
     <div style="margin-top: -5px;  margin-right: 5px">
     {% if 'sorth' in request.GET %}
         {% if 'sort' in request.GET %}
-         <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+         <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% else %}
-            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
         {% endif %}
         {% else %}
         {% if 'sort' in request.GET %}
-    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% else %}
-            <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success">Flip order</button> </a>
+            <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% endif %}
    {% endif %}
     </div>
 
+
+
+
+
+    {% if 'sorth' in request.GET %}
+    <!-- flipped for loop to iterate through post and print in standard format -->
+{% for post in object_list reversed%}
+{% if post.pubStatus %}
+{% if post.event_time < now %}
+     <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
+
+    <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
+     style="max-width: 140px; width: auto; height: 50px; float:left"></div>
+    <div style="display: inline-block;">
+        {{post.title}} - {{post.author}}- Posted: {{ post.created_at }}
+        <br/>
+        <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
+    </div>
+    <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
+        <!-- Button to visit detailed post page -->
+        <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success">Read Article</button></a>
+    </div>
+     </div>
+</div>
+{% endif %}
+{% endif  %}
+{% endfor%}
+
+
+<!-- if sort url parameter does not exist, don't flip for loop-->
+    {% else %}
+<!-- for loop to iterate through post and print in standard format -->
+    {% for post in object_list %}
+        {% if post.pubStatus %}
+        {% if post.event_time < now %}
+        <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
+
+        <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" >
+            <img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded" style="max-width: 140px; width: auto; height: 50px; float:left">
+        </div>
+        <div style="display: inline-block;">
+            {{post.title}} - {{post.author}} - Posted: {{ post.created_at }}
+            <br/>
+            <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
+        </div>
+        <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
+             <!-- Button to visit detailed post page -->
+            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success">Read Article</button></a>
+        </div>
+        </div>
+        </div>
+        {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 {% endblock %}
 </body>
 </html>
