@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import  User, Group
+from django.utils import timezone
+
 
 
 #Post Model
@@ -26,6 +28,10 @@ class Event(models.Model):
     #Returns Url for the Details page of a sepcific post
     def get_absolute_url(self):
         return reverse('detailed_post', args=[str(self.id)])
+    
+    @property
+    def future(self):
+        return self.event_time > timezone.now()
 
 class Comment(models.Model):
     event = models.ForeignKey(Event, related_name= "comments", on_delete=models.CASCADE)

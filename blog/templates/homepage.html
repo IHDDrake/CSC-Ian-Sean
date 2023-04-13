@@ -72,7 +72,7 @@
         <!-- flipped for loop to iterate through post and print in standard format -->
     {% for post in object_list reversed%}
     {% if post.pubStatus %}
-    {% if post.event_time != timezone.now %}
+    {% if post.future %}
     
          <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
 
@@ -99,6 +99,8 @@
 <!-- for loop to iterate through post and print in standard format -->
         {% for post in object_list %}
             {% if post.pubStatus %}
+            {% if post.future %}
+            
             
             <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
 
@@ -116,7 +118,7 @@
             </div>
             </div>
             </div>
-            
+            {% endif %}
             {% endif %}
         {% endfor %}
 {% endif %}
@@ -162,7 +164,8 @@
     <!-- flipped for loop to iterate through post and print in standard format -->
 {% for post in object_list reversed%}
 {% if post.pubStatus %}
-{% if post.event_time < now %}
+{% if post.future %}
+{% else %}
      <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
 
     <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
@@ -188,7 +191,8 @@
 <!-- for loop to iterate through post and print in standard format -->
     {% for post in object_list %}
         {% if post.pubStatus %}
-        {% if post.event_time < now %}
+        {% if post.future %}
+        {% else %}
         <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
 
         <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" >
