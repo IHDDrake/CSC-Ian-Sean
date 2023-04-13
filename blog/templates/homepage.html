@@ -79,13 +79,13 @@
         <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
          style="max-width: 140px; width: auto; height: 50px; float:left"></div>
         <div style="display: inline-block;">
-            {{post.title}} - {{post.author}}- Posted: {{ post.created_at }} {{todays_date}}
+            {{post.title}} - Event Time: {{ post.event_time }}
             <br/>
             <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
         </div>
         <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
             <!-- Button to visit detailed post page -->
-            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success">Read Article</button></a>
+            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
         </div>
          </div>
     </div>
@@ -108,13 +108,13 @@
                 <img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded" style="max-width: 140px; width: auto; height: 50px; float:left">
             </div>
             <div style="display: inline-block;">
-                {{post.title}} - {{post.author}} - Posted: {{ post.created_at }}
+                {{post.title}} - Event Time: {{ post.event_time }}
                 <br/>
                 <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
             </div>
             <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
                  <!-- Button to visit detailed post page -->
-                <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success">Read Article</button></a>
+                <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
             </div>
             </div>
             </div>
@@ -122,38 +122,42 @@
             {% endif %}
         {% endfor %}
 {% endif %}
-
-
+<br>
 
 
 
 
     <div style="text-align: center; margin: 5px;">
+        <center>
     <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color:#000066">
 <h1 style="color:white;">Event History:</h1>
-    <hr style="margin: 0em;">
+
     <!-- Depending on the existence of the "sort" url parameter print corresponding description -->
     {% if 'sorth' in request.GET %}
         <div style="text-align: center;"><small id = "sortHeader" style="color: white;">Earliest</small></div>
         {% else %}
         <div style="text-align: center;"><small id = "sortHeader" style="color: white;">Most Recent</small></div>
 {% endif %}
+
     </div>
-</div>
-    <div style="margin-top: -5px;  margin-right: 5px">
+</center>
     {% if 'sorth' in request.GET %}
         {% if 'sort' in request.GET %}
-         <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
+         <a href = "{% url 'homepage' %}?sort=1" style="display: inline-block; float: right; margin-top:-40px;"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% else %}
-            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
+            <a href = "{% url 'homepage' %}" style="display: inline-block; float: right; margin-top:-40px;"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
         {% endif %}
         {% else %}
         {% if 'sort' in request.GET %}
-    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
+    <a href = "{% url 'homepage' %}?sort=1&sorth=1" style="display: inline-block; float: right; margin-top:-40px;"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% else %}
-            <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
+            <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right; margin-top:-40px;"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% endif %}
    {% endif %}
+    <hr style="margin: 0em;">
+</div>
+    <div style="margin-top: -5px;  margin-right: 5px">
+    
     </div>
 
 
@@ -171,13 +175,13 @@
     <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
      style="max-width: 140px; width: auto; height: 50px; float:left"></div>
     <div style="display: inline-block;">
-        {{post.title}} - {{post.author}}- Posted: {{ post.created_at }}
+        {{post.title}} - Event Time: {{ post.event_time }}
         <br/>
         <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
     </div>
     <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
         <!-- Button to visit detailed post page -->
-        <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success">Read Article</button></a>
+        <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
     </div>
      </div>
 </div>
@@ -199,13 +203,13 @@
             <img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded" style="max-width: 140px; width: auto; height: 50px; float:left">
         </div>
         <div style="display: inline-block;">
-            {{post.title}} - {{post.author}} - Posted: {{ post.created_at }}
+            {{post.title}} -  Event Time: {{ post.event_time }}
             <br/>
             <span style="display: block; width: 1000px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{post.body}}</span>
         </div>
         <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
              <!-- Button to visit detailed post page -->
-            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success">Read Article</button></a>
+            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
         </div>
         </div>
         </div>
