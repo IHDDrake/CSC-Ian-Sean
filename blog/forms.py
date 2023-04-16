@@ -27,5 +27,6 @@ class RegistrationForm(forms.ModelForm):
     def __init__(self,  *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['boat'].queryset = Boat.objects.filter(owner=user)
+        if user.id != None:
+            self.fields['boat'].queryset = Boat.objects.filter(owner=user)
         
