@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event, Comment, Boat
+from .models import Event, Comment, Boat, Registration
 
 
 #Form for adding Comments
@@ -16,4 +16,11 @@ class BoatForm(forms.ModelForm):
     class Meta:
         model = Boat
         exclude = ["owner"]
+
+class RegistrationForm(forms.ModelForm):
+    boat = forms.ModelChoiceField(queryset=Boat.objects.all())
+    class Meta:
+        model = Registration
+        fields = ['user','boat', 'event']
+        exclude = ("user","event")
         

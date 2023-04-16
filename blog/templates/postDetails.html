@@ -2,6 +2,7 @@
 <!-- Bring in Bootstrap Functionality -->
 {%  extends 'base.html' %}
 <!-- Rename Title -->
+{% load custom_tags %}
 {% block title %}Post Details{% endblock %}
 
 <html lang="en">
@@ -21,7 +22,7 @@
     -->
     <div style="text-align: center;"><img src ="../media/{{ event.heroHeader}}" alt = "heroHeader" class = "rounded"
     style="max-width:100%;width: auto; height: 500px"></div>
-    <!-- Article Content and Running Stats -->
+    
     <div class = "form-control rounded border-success p-1 mb-2" style="margin: 25px; max-width: 96%;margin-left: 2%">
 <h1>{{ event.title }}</h1>
 <h2>By: {{ event.author}}</h2>
@@ -30,9 +31,48 @@
 <p>{{ event.body }}</p>
     </div>
 
-    <!-- Add comment Form
-    Redirects back to detailed post page after successful comment.
-    -->
+    <!--
+    
+--> 
+    
+   
+    {% if not regist  %}
+    {% if request.user.is_authenticated %}
+    <form  method="post">
+      {% csrf_token %}
+      
+      {{ form.as_p }}
+      
+      
+      <button type="submit">Register</button>
+    </form>
+  {% else %}
+    <p>Please <a href="{% url 'login' %}">log in</a> to register for this event.</p>
+  {% endif %}
+    {% else %}
+    <p> You are already registered for this event </p>
+    
+  
+  {% endif%}
+  
+
+  <center><p>Registered Participants</p>
+  {% if not event.regs.all %}
+    No Participants Registrated
+    {% else %}
+    <hr>
+    {% for reg in event.regs.all %}
+        <div style="display:inline-flex"><p>Participant: {{ reg.user }}  Boat: {{ reg.boat.classification }}{{ reg.boat.number }}</p></div><br>
+    {% endfor%}
+  {% endif %}
+</center>
+ 
+
+
+
+
+
+    <!--
     <div class="form-control rounded border-success p-1 mb-2 " style="margin: 25px; max-width: 96%;margin-left: 2%">
         <strong>Add Comment</strong>
     <hr style="margin-top:0px;">
@@ -50,7 +90,7 @@
             </div>
         {% endfor %}
     <div style=" float: bottom; margin-bottom: 5px; margin-left: 93%;">
-        <!-- submit button -->
+        
         <button class= "btn btn-success" onClick="this.form.submit();this.disabled=true; this.value='Sending…';">Comment</button>
     </div>
     </form>
@@ -58,15 +98,13 @@
     </div>
 
 
-<!-- Comment Section
-Newer Comments appear closer to top
--->
+
     <div class="form-control rounded border-success p-1 mb-2" style="margin: 25px; max-width: 96%;margin-left: 2%">
-    <!-- If no comments exist yet, inform the user-->
+    
     {% if not post.comments.all %}
     No Comments yet...
     {% else %}
-        <!-- else print comments in proper format -->
+        
         <strong>Comments:</strong>
         <hr style="margin-top:0em;">
         {% for comment in post.comments.all reversed%}
@@ -75,18 +113,18 @@ Newer Comments appear closer to top
             {{ comment.comment }}
             </div>
 
-            <!-- Math for calculating sum of total amount of likes and dislikes-->
+            
             <div style=" float: right;display: inline-flex; ">
              {% with sum=comment.upVote|add:comment.downVote  %}
                 <strong style="margin: 10px;">Likes: {{ sum }}</strong>
             {% endwith %}
 
-            <!-- Button for upvoting, submits form that increments specific comments Upvote count-->
+            
             <form action = "{% url 'upvote' event.pk %}" method="POST">
                 {% csrf_token %}
                 <button class = "btn btn-success" style="display:flex; margin: 5px;" type="submit" value="{{ comment.id }}" name="upvoteID">upvote</button>
             </form>
-            <!-- Button for downvoting, submits form that decrements specific comments Downvote count-->
+           
             <form action = "{% url 'downvote' event.pk %}" method="POST">
                 {% csrf_token %}
                 <button class = "btn btn-success" style="display:flex; margin: 5px;" type="submit" value="{{ comment.id }}" name="downvoteID">downvote</button>
@@ -98,6 +136,7 @@ Newer Comments appear closer to top
     </div>
     </br>
     </br>
+-->
 
 
     <!--Return to Bootstrap Implementation -->

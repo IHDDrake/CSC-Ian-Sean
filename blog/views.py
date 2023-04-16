@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, FormView, TemplateView
 from django.http import HttpResponseRedirect
-from .models import Event, Comment, Boat
-from .forms import CommentForm, BoatForm
+from .models import Event, Comment, Boat, Registration
+from .forms import CommentForm, BoatForm, RegistrationForm
 from django.contrib.auth.models import User
+from django import forms
 
 
 #This is the class-based view for a very simple homepage.
@@ -20,24 +21,62 @@ class Home(ListView):
 #Included are a function that update the viewCount every time the page is visited,
 #a function to correctly point the url to the right post,
 #and a function to ensure that forms are submitted correctly
-class Detail(DetailView, CreateView):
+
+
+
+   
+   
+
+class Detail(DetailView, FormView):
     model = Event
-    form_class = CommentForm
+    form_class = RegistrationForm
+    
     template_name = 'postDetails.html'
     def get_object(self):
         obj = super().get_object()
         obj.viewCount += 1
         obj.save()
         return obj
+    
     def get_success_url(self):
         return reverse_lazy('detailed_post', kwargs={'pk': self.kwargs['pk']})
+    
     def form_valid(self, form):
-        form.instance.post_id = self.kwargs['pk']
+        registration = form.save(commit=False)
+        registration.event = self.get_object()
+        registration.user = self.request.user
+        registration.boat = form.cleaned_data['boat']
+        registration.save()
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()
+        finally:
+            return context
+    """
+    def get(self, request, pk):
+        user = request.user
+        try:
+            my_obj = Registration.objects.get(user=user, event=pk)
+        except Registration.DoesNotExist:
+            my_obj = ""
+
+        context = {
+            'my_obj': my_obj,
+            'event': pk,
+        }
+
+        return render(request, self.template_name, context)
+    """
+    
 
 
 
 #This class-based view goes unused in the final product. It remains for the purpose of remimplementation upon request
+
+
 class addPost(CreateView):
     model = Event
     template_name = 'addPost.html'
