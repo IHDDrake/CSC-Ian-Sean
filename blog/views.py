@@ -31,6 +31,7 @@ class Detail(DetailView, FormView):
     model = Event
     form_class = RegistrationForm
     
+    
     template_name = 'postDetails.html'
     def get_object(self):
         obj = super().get_object()
@@ -51,10 +52,16 @@ class Detail(DetailView, FormView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['form'] = RegistrationForm(user=self.request.user)
         try:
             context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()
         finally:
             return context
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
     """
     def get(self, request, pk):
         user = request.user

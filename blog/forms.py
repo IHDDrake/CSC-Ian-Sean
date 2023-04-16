@@ -18,9 +18,14 @@ class BoatForm(forms.ModelForm):
         exclude = ["owner"]
 
 class RegistrationForm(forms.ModelForm):
-    boat = forms.ModelChoiceField(queryset=Boat.objects.all())
+    boat = forms.ModelChoiceField(queryset=Boat.objects.none())
     class Meta:
         model = Registration
         fields = ['user','boat', 'event']
         exclude = ("user","event")
+
+    def __init__(self,  *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['boat'].queryset = Boat.objects.filter(owner=user)
         
