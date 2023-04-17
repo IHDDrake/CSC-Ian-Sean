@@ -38,6 +38,8 @@ class Boat(models.Model):
     owner = models.ForeignKey(User,verbose_name="User",related_name="owner", on_delete=models.CASCADE)
     classification = models.CharField(max_length=1)
     number = models.CharField(max_length=3)
+    def __str__(self):
+        return str(self.classification) + str(self.number) 
     
     def get_success_url(self):
         return reverse('homepage', args=[str(self.id)])
