@@ -47,7 +47,9 @@
             <p>Please <a href="{% url 'login' %}">log in</a> to register for this event.</p>
         {% endif %}
     {% else %}
-        <p> You are already registered for this event </p>
+        <p> You are already registered for this event </p> 
+        
+        <a href="{% url 'unregister' registR.first.id event.pk %}">unregister</a>
     {% endif%}
   
 

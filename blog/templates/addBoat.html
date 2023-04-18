@@ -11,6 +11,7 @@
         {% for boat in object_list %} 
         {% if user.username == boat.owner.username %}
         <p>{{boat.owner.username}} - {{boat.classification}}{{boat.number}} </p>
+        <a href="{% url 'deleteBoat' boat.id %}">Delete Boat</a>
         {% endif %}
         {% endfor %}
     </div>

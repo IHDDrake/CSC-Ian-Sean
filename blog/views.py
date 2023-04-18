@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView, ListView, CreateView, FormView, TemplateView
+from django.views.generic import DetailView, ListView, CreateView, FormView
 from django.http import HttpResponseRedirect
 from .models import Event, Comment, Boat, Registration
-from .forms import CommentForm, BoatForm, RegistrationForm
+from .forms import BoatForm, RegistrationForm
 from django.contrib.auth.models import User
-from django import forms
+
 
 
 #This is the class-based view for a very simple homepage.
@@ -54,7 +54,8 @@ class Detail(DetailView, FormView):
         context = super().get_context_data(**kwargs)
         context['form'] = RegistrationForm(user=self.request.user)
         try:
-            context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()
+            context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()  
+            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)
         finally:
             return context
     
@@ -81,9 +82,6 @@ class Detail(DetailView, FormView):
 
 
 
-#This class-based view goes unused in the final product. It remains for the purpose of remimplementation upon request
-
-
 class addPost(CreateView):
     model = Event
     template_name = 'addPost.html'
@@ -99,7 +97,7 @@ class addBoat(CreateView, ListView):
         candidate = form.save(commit=False)
         candidate.owner = User.objects.get(pk=self.request.user.pk)  # use your own profile here
         candidate.save()
-        return HttpResponseRedirect(reverse('homepage'))
+        return HttpResponseRedirect(reverse('add_boat'))
 
 
 # These are the two function based views. They have no associated template and allow for the functionality
@@ -117,3 +115,13 @@ def downVote(request, pk):
     comment.downVote -= 1
     comment.save()
     return HttpResponseRedirect(reverse('detailed_post', args=[str(pk)]))
+
+def deleteBoat(request, pk):
+    boat = get_object_or_404(Boat, pk=pk, owner=request.user)
+    boat.delete()
+    return HttpResponseRedirect(reverse('add_boat'))
+
+def unregister(request, pk, epk):
+    boat = get_object_or_404(Registration, pk=pk, user=request.user)
+    boat.delete()
+    return HttpResponseRedirect(reverse('detailed_post', args=[str(epk)]))
