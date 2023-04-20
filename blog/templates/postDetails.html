@@ -107,9 +107,50 @@
       <br />
       {% endfor%} {% endif %}
     </center>
+
+
+
+
+
+
+    <!-- Event is in the past-->
     {% else %}
     <center>
-        <p style="font-size: 30px; margin:20px 0 -10px 0;">Results</p>
+        <p style="font-size: 40px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; margin:20px 0 -20px 0; font-weight: 500;">Results</p>
+        <hr style="border-top: 5px solid #000066; opacity: 100%" />
+        <div class="border rounded p-1 mb-2" style="background-color: #000066; display: inline-flex; text-align: center; width: 50%;">
+            <div style="padding: 5px; background-color: white ;width: 100%;">
+                {% for res in registResult%}
+                <center>
+                    {%if res.ranking == 1%}<p>1st Place: {{res}}</p>
+                    {% else %}
+                        {% if res.ranking == 2 %}
+                        <p>2nd Place: {{res}}</p>
+                        {% else %}
+                            {% if res.ranking == 3 %}
+                                <p>3rd Place: {{res}}</p>
+                            
+                            {% else %}
+                            <p style="text-align:left; margin: 0 0 0 0">Remaining Rankings:</p>
+                            <hr style="margin: -1px 0 10px 0;">
+                            <center>
+                            <div class="border rounded p-1 mb-2" style="background-color: #000066; display: table-cell;vertical-align: middle; text-align: center; width: 5% !important;">
+                                <div style="padding: 5px; background-color: white; width:100%">
+                                    <p style="margin: 0 0 0 0;">Place: {{forloop.counter}} |    {{res}}</p>
+                                </div>
+                            </div>
+                            </center>
+                            {% endif %}
+
+                        {% endif %}
+                    {% endif %}
+                    
+                    
+                {% endfor %}
+                
+                    
+            </div>
+        </div>
     </center>
     {% endif %}
 

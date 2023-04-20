@@ -36,7 +36,7 @@ class Event(models.Model):
 
 class Boat(models.Model):
     owner = models.ForeignKey(User,verbose_name="User",related_name="owner", on_delete=models.CASCADE)
-    classification = models.CharField(max_length=1)
+    classification = models.CharField(max_length=2)
     number = models.CharField(max_length=3)
     def __str__(self):
         return str(self.classification) + str(self.number) 
@@ -52,6 +52,7 @@ class Registration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     boat = models.ForeignKey(Boat, on_delete=models.CASCADE)
     registered_at = models.DateTimeField(auto_now_add=True)
+    ranking = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.user) 

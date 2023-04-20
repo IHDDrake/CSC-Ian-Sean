@@ -44,7 +44,8 @@ class Detail(DetailView, FormView):
         context['form'] = RegistrationForm(user=self.request.user)
         try:
             context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()    # noqa: E501
-            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)  # noqa: E501
+            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)  
+            context['registResult']= Registration.objects.filter(event=self.object).order_by('ranking') # noqa: E501
         finally:
             return context
     
@@ -52,22 +53,6 @@ class Detail(DetailView, FormView):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
-    """
-    def get(self, request, pk):
-        user = request.user
-        try:
-            my_obj = Registration.objects.get(user=user, event=pk)
-        except Registration.DoesNotExist:
-            my_obj = ""
-
-        context = {
-            'my_obj': my_obj,
-            'event': pk,
-        }
-
-        return render(request, self.template_name, context)
-    """
-    
 
 
 
