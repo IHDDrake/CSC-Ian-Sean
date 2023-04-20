@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event,  Boat, Registration
+from .models import  Boat, Registration
 
 
 #Form for adding Comments
@@ -26,6 +26,6 @@ class RegistrationForm(forms.ModelForm):
     def __init__(self,  *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        if user.id != None:
+        if user.id is not None:
             self.fields['boat'].queryset = Boat.objects.filter(owner=user)
         

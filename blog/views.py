@@ -8,24 +8,12 @@ from django.contrib.auth.models import User
 
 
 
-#This is the class-based view for a very simple homepage.
-#It is ordered by negative creation time. This results in the object_list being
-#ordered with the most recent posts at the top
 class Home(ListView):
     model = Event
     template_name = 'homepage.html'
     ordering = ['-created_at']
 
-
-#This is the class-based view for the Detailed Post page.
-#Included are a function that update the viewCount every time the page is visited,
-#a function to correctly point the url to the right post,
-#and a function to ensure that forms are submitted correctly
-
-
-
-   
-   
+ 
 
 class Detail(DetailView, FormView):
     model = Event
@@ -55,8 +43,8 @@ class Detail(DetailView, FormView):
         context = super().get_context_data(**kwargs)
         context['form'] = RegistrationForm(user=self.request.user)
         try:
-            context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()  
-            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)
+            context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()    # noqa: E501
+            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)  # noqa: E501
         finally:
             return context
     
@@ -105,15 +93,12 @@ class addBoat(CreateView, ListView):
         else:
             candidate.save()
         return HttpResponseRedirect(reverse('add_boat'))
-    
-    
-# These are the two function based views. They have no associated template and allow for the functionality
-#of the comment liking and disliking buttons. Upon modify the specific comments value in the database.
-#After their task is completed they redirect back to the detailed post page the comment is on.
-#An improvement that can be made for these functions is the inclusion of handling a failed search.
-#i.e. if get_object_or_404 doesn't retrieve whats it is asked to.
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['boatU'] = Boat.objects.filter(owner=self.request.user).exists()    # noqa: E501
+        finally:
+            return context
 
 def deleteBoat(request, pk):
     boat = get_object_or_404(Boat, pk=pk, owner=request.user)
