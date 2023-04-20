@@ -116,10 +116,11 @@
     <!-- Event is in the past-->
     {% else %}
     <center>
-        <p style="font-size: 40px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; margin:20px 0 -20px 0; font-weight: 500;">Results</p>
-        <hr style="border-top: 5px solid #000066; opacity: 100%" />
+        
         <div class="border rounded p-1 mb-2" style="background-color: #000066; display: inline-flex; text-align: center; width: 50%;">
             <div style="padding: 5px; background-color: white ;width: 100%;">
+                <p style="font-size: 40px;  margin:-5px 0 -20px 0; font-weight: 500;">Results</p>
+        <hr style="border-top: 5px solid #000066; opacity: 100%" />
                 {% for res in registResult%}
                 <center>
                     {%if res.ranking == 1%}<p>1st Place: {{res}}</p>
