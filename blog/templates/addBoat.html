@@ -6,25 +6,50 @@
   </head>
   <body>
     {% block content %}
-    <center><p>All Your Registered Boats:</p>
+    <center>
+      <div style="text-align: center; margin: 5px;">
+        <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color: #000066;">
+      <p style="color:white; margin-top: 15px; font-size: 20px;">All Your Registered Boats:</p>
+    </div>
+    </div>
     <div>
+      {% if  object_list|length > 2 %}
+      {% else %}
+      <p>You have no boats registered</p>
+      {% endif %}
         {% for boat in object_list %} 
         {% if user.username == boat.owner.username %}
-        <p>{{boat.owner.username}} - {{boat.classification}}{{boat.number}} </p>
-        <a href="{% url 'deleteBoat' boat.id %}">Delete Boat</a>
+        <div class="border rounded border-success p-1 mb-2" style="display: inline-flex; background-color: aliceblue; border-color:blue !important;">
+        <p style="padding-right: 5px; margin-top:15px;">{{boat.owner.username}} - {{boat.classification}}{{boat.number}} </p>
+        <div style="margin-bottom: -5px; min-height: 100%; border: #000066 solid 1px; margin-top: -5px;"></div>
+        <small style="margin-top:15px;"><a href="{% url 'deleteBoat' boat.id %}" style="padding-left: 5px; text-decoration: none; ">Delete Boat</a></small>
+      </div>
+      <br>
         {% endif %}
         {% endfor %}
     </div>
-</center>
+    <br>
+
+    <div style="text-align: center; margin: 5px;">
+      <div class="border rounded border-success p-1 mb-2" style=" display: inline-block; width: 20%; background-color: #000066;">
+    <p style="color:white; margin-top: 15px; font-size: 20px;">Add a New Boat:</p>
+  </div>
+  </div>
+
     <form enctype="multipart/form-data" method="POST">
-      {% csrf_token %} {{ form.as_p }}
+      {% csrf_token %} 
+      {{ form.classification.label}}:
+      {{form.classification}}
+      {{form.number.label}}:
+      {{form.number}}
+      <br><br>
       <button
        class="btn btn-success" style="background-color: #000066;" onClick="this.form.submit();this.disabled=true; this.value='Sending…';"
       >
         Add Boat
       </button>
     </form>
-
+  </center>
     {% endblock %}
   </body>
 </html>

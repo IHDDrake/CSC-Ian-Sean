@@ -1,21 +1,19 @@
 from django import forms
-from .models import Event, Comment, Boat, Registration
+from .models import Event,  Boat, Registration
 
 
 #Form for adding Comments
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ('name', 'comment')
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows':1, 'cols': 130}),
-        }
+
 
 class BoatForm(forms.ModelForm):
     class Meta:
         model = Boat
         exclude = ["owner"]
+        widgets = {
+            'classification': forms.TextInput(attrs={'placeholder': 'X'}),
+            'number': forms.TextInput(attrs={'placeholder': '123'})
+        }
+    
 
 class RegistrationForm(forms.ModelForm):
     boat = forms.ModelChoiceField(queryset=Boat.objects.none())
@@ -23,6 +21,7 @@ class RegistrationForm(forms.ModelForm):
         model = Registration
         fields = ['user','boat', 'event']
         exclude = ("user","event")
+        
 
     def __init__(self,  *args, **kwargs):
         user = kwargs.pop('user')

@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, FormView
 from django.http import HttpResponseRedirect
-from .models import Event, Comment, Boat, Registration
+from .models import Event, Boat, Registration
 from .forms import BoatForm, RegistrationForm
 from django.contrib.auth.models import User
 
@@ -49,6 +49,7 @@ class Detail(DetailView, FormView):
         registration.boat = form.cleaned_data['boat']
         registration.save()
         return super().form_valid(form)
+        
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,26 +96,24 @@ class addBoat(CreateView, ListView):
     
     def form_valid(self, form):
         candidate = form.save(commit=False)
-        candidate.owner = User.objects.get(pk=self.request.user.pk)  # use your own profile here
-        candidate.save()
+        user= User.objects.get(pk=self.request.user.pk)  # use your own profile here
+        candidate.owner = user
+        num = form.cleaned_data['number']
+        cla = form.cleaned_data['classification']
+        if Boat.objects.filter(owner=user, number=num, classification=cla).exists():
+            pass
+        else:
+            candidate.save()
         return HttpResponseRedirect(reverse('add_boat'))
-
-
+    
+    
 # These are the two function based views. They have no associated template and allow for the functionality
 #of the comment liking and disliking buttons. Upon modify the specific comments value in the database.
 #After their task is completed they redirect back to the detailed post page the comment is on.
 #An improvement that can be made for these functions is the inclusion of handling a failed search.
 #i.e. if get_object_or_404 doesn't retrieve whats it is asked to.
-def upVote(request, pk):
-    comment = get_object_or_404(Comment, id=request.EVENT.get('upvoteID'))
-    comment.upVote += 1
-    comment.save()
-    return HttpResponseRedirect(reverse('detailed_post', args=[str(pk)]))
-def downVote(request, pk):
-    comment = get_object_or_404(Comment, id=request.EVENT.get('downvoteID'))
-    comment.downVote -= 1
-    comment.save()
-    return HttpResponseRedirect(reverse('detailed_post', args=[str(pk)]))
+
+
 
 def deleteBoat(request, pk):
     boat = get_object_or_404(Boat, pk=pk, owner=request.user)

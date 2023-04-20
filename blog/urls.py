@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, Detail, addPost, addBoat, upVote, downVote, deleteBoat, unregister
+from .views import Home, Detail, addPost, addBoat, deleteBoat, unregister
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
@@ -12,8 +12,7 @@ urlpatterns = [
 
     #The upvote and downvote are passed the primary key of the post so
     #they know where to return to after completing their tasks.
-    path('upVote/<int:pk>', upVote, name = 'upvote'),
-    path('downVote/<int:pk>', downVote, name = 'downvote'),
+    
     path('deleteBoat/<int:pk>', deleteBoat, name='deleteBoat'),
     path('unregister/<int:pk>/<int:epk>', unregister, name='unregister')
 

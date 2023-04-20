@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event, Comment, Boat,Registration
+from .models import Event,  Boat,Registration
 
 # Registering models
 admin.site.register(Event)

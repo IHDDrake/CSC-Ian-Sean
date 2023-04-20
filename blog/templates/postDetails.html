@@ -1,73 +1,117 @@
 <!DOCTYPE html>
 <!-- Bring in Bootstrap Functionality -->
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 <!-- Rename Title -->
-{% load custom_tags %}
-{% block title %}Post Details{% endblock %}
+{% load custom_tags %} {% block title %}Post Details{% endblock %}
 
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Post Details</title>
-</head>
+  </head>
 
-<body>
-{% block content %}
+  <body>
+    {% block content %}
     <!-- bring in static and dynamic media -->
     {% load static %}
-    <br/>
+    <br />
     <!-- Hero Header
     Standardized 500 px height. Will center the image based on its width.
     If width is larger than the screen's size, image is shrunk to fit.
     -->
-    <div style="text-align: center;"><img src ="../media/{{ event.heroHeader}}" alt = "heroHeader" class = "rounded"
-    style="max-width:100%;width: auto; height: 500px"></div>
-    
-    <div class = "form-control rounded border-success p-1 mb-2" style="margin: 25px; max-width: 96%;margin-left: 2%">
-<h1>{{ event.title }}</h1>
-<h2>By: {{ event.author}}</h2>
-    <small>Posted: {{ event.created_at }} </small><small style="float:right; margin-right: 5px;">Viewed: {{ event.viewCount }}</small>
-<hr>
-<p>{{ event.body }}</p>
+    <div style="text-align: center">
+      <img
+        src="../media/{{ event.heroHeader}}"
+        alt="heroHeader"
+        class="rounded"
+        style="max-width: 100%; width: auto; height: 500px"
+      />
+    </div>
+
+    <div
+      class="form-control rounded border-success p-1 mb-2"
+      style="
+        margin: 25px;
+        max-width: 96%;
+        margin-left: 2%;
+        background-color: #000066;
+      "
+    >
+      <div style="padding: 10px; background-color: white">
+        <center>
+          <h1>{{ event.title }}</h1>
+          <h2>Hosted By: {{ event.author}}</h2>
+        </center>
+        <strong>Event Time: {{ event.event_time }} </strong>
+        <small style="float: right; margin-right: 5px"
+          >Viewed: {{ event.viewCount }}</small
+        >
+        <hr style="border-top: 5px solid #000066; opacity: 100%" />
+        <center>
+          <p>{{ event.body }}</p>
+        </center>
+      </div>
     </div>
 
     <!--
     
---> 
-    
-   
-    {% if not regist  %}
-        {% if request.user.is_authenticated %}
-            <form  method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-            </form>
-        {% else %}
-            <p>Please <a href="{% url 'login' %}">log in</a> to register for this event.</p>
-        {% endif %}
+-->{% if event.future %}
+<p style="font-size: 30px; margin:0 0 0 40px;"><b>Register For Race Here:</b></p>
+    {% if not regist %} {% if request.user.is_authenticated %}
+    <center><div class="form-control rounded border-success p-1 mb-2" style="background-color: #000066; width:90%; text-align: center;">
+        <div style="padding: 5px; background-color: white">
+            <center><p style="font-size: 20px;">Please Select the Boat you will Race with:</p></center>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit" class="btn btn-success" style="background-color: #000066;">Register for Race</button>
+    </form>
+</div>
+</div></center> 
     {% else %}
-        <p> You are already registered for this event </p> 
-        
-        <a href="{% url 'unregister' registR.first.id event.pk %}">unregister</a>
-    {% endif%}
-  
-
-  <center><p>Registered Participants</p>
-  {% if not event.regs.all %}
-    No Participants Registrated
-    {% else %}
-    <hr>
-    {% for reg in event.regs.all %}
-        <div style="display:inline-flex"><p>Participant: {{ reg.user }}  Boat: {{ reg.boat.classification }}{{ reg.boat.number }}</p></div><br>
-    {% endfor%}
-  {% endif %}
+    <center>
+        <div class="form-control rounded border-success p-1 mb-2" style="background-color: #000066; width:90%; text-align: center;">
+            <div style="padding: 5px; background-color: white">
+    <p style ="margin-bottom:0px;">
+      Please <a href="{% url 'login' %}">log in</a> to register for this event.
+    </p>
+            </div>
+        </div>
+    </center>
+    {% endif %} {% else %}
+    <center>
+    <div class="form-control rounded border-success p-1 mb-2" style="background-color: #000066; width:90%; text-align: center;">
+        <div style="padding: 5px; background-color: white">
+        <p style="margin-bottom: 0px; font-size:30px;">You are already registered for this event</p>
+        <a href="{% url 'unregister' registR.first.id event.pk %}" style="text-decoration: none;"><button class="btn btn-success" style="background-color: #000066;">Click here to Unregister</button></a>   
+        </div>
+</div>
 </center>
- 
+    
+    {% endif%}
 
 
-
-
+    
+    <center>
+        <p style="font-size: 30px; margin:20px 0 -10px 0;"><b>Registered Participants</b></p>
+        
+      {% if not event.regs.all %} No Participants Registrated {% else %}
+      <hr style="border-top: 5px solid #000066; opacity: 100%" />
+      {% for reg in event.regs.all %}
+      <div class="border rounded p-1 mb-2" style="background-color: #000066; display: inline-flex; text-align: center;">
+        <div style="padding: 5px; background-color: white">
+        <p style="margin: 0px 0 0 0;">
+          <b>Participant: </b>{{ reg.user }} | <b>Sail Code: </b>{{ reg.boat.classification }}{{reg.boat.number }}
+        </p>
+    </div>
+      </div>
+      <br />
+      {% endfor%} {% endif %}
+    </center>
+    {% else %}
+    <center>
+        <p style="font-size: 30px; margin:20px 0 -10px 0;">Results</p>
+    </center>
+    {% endif %}
 
     <!--
     <div class="form-control rounded border-success p-1 mb-2 " style="margin: 25px; max-width: 96%;margin-left: 2%">
@@ -135,11 +179,7 @@
     </br>
 -->
 
-
     <!--Return to Bootstrap Implementation -->
-{% endblock %}
-
-
-
-</body>
+    {% endblock %}
+  </body>
 </html>

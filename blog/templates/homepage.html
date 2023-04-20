@@ -61,8 +61,7 @@
     </div>
     </div>
     </br>
-    <hr>
-
+    <hr style="border-top: 5px solid #000066; opacity: 100%" />
 
 
 <!-- Printing of all posts and buttons to their detail pages -->
@@ -74,7 +73,7 @@
     {% if post.pubStatus %}
     {% if post.future %}
     
-         <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
+         <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px; border: 1px solid #000066 !important;">
 
         <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
          style="max-width: 140px; width: auto; height: 50px; float:left"></div>
@@ -85,7 +84,7 @@
         </div>
         <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
             <!-- Button to visit detailed post page -->
-            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
+            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">View Race Details</button></a>
         </div>
          </div>
     </div>
@@ -102,7 +101,8 @@
             {% if post.future %}
             
             
-            <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
+            <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px; border:1px solid #000066 !important
+            ">
 
             <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" >
                 <img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded" style="max-width: 140px; width: auto; height: 50px; float:left">
@@ -114,7 +114,7 @@
             </div>
             <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
                  <!-- Button to visit detailed post page -->
-                <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
+                <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">View Race Details</button></a>
             </div>
             </div>
             </div>
@@ -154,7 +154,7 @@
             <a href = "{% url 'homepage' %}?sorth=1" style="display: inline-block; float: right; margin-top:-40px;"> <button class = "btn btn-success" style="background-color: #000066;">Flip order</button> </a>
             {% endif %}
    {% endif %}
-    <hr style="margin: 0em;">
+   <hr style="border-top: 5px solid #000066; opacity: 100%; margin: 0em;" />
 </div>
     <div style="margin-top: -5px;  margin-right: 5px">
     
@@ -170,7 +170,7 @@
 {% if post.pubStatus %}
 {% if post.future %}
 {% else %}
-     <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
+     <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px; border: 1px solid #000066 !important;">
 
     <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" ><img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded"
      style="max-width: 140px; width: auto; height: 50px; float:left"></div>
@@ -181,7 +181,7 @@
     </div>
     <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
         <!-- Button to visit detailed post page -->
-        <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
+        <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">View Race Details</button></a>
     </div>
      </div>
 </div>
@@ -197,7 +197,7 @@
         {% if post.pubStatus %}
         {% if post.future %}
         {% else %}
-        <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;">
+        <div class="border rounded border-success p-1 mb-2" id="outer" style="margin: 25px;border: 1px solid #000066 !important;">
 
         <div style="display:inline-block; vertical-align: -4px; margin-left: 2px;" >
             <img src ="../media/{{ post.heroHeader}}" id = "inner"alt = "heroHeader" class = "rounded" style="max-width: 140px; width: auto; height: 50px; float:left">
@@ -209,7 +209,7 @@
         </div>
         <div  id= "inner" style=" float: right; margin-top: 8px; margin-right: 5px;">
              <!-- Button to visit detailed post page -->
-            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">Read Article</button></a>
+            <a href="{% url 'detailed_post' post.pk%}" style= "vertical-align: middle"><button class = "btn btn-success" style="background-color: #000066;">View Race Details</button></a>
         </div>
         </div>
         </div>

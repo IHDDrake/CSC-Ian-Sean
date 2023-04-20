@@ -56,6 +56,7 @@ class Registration(models.Model):
     def __str__(self):
         return str(self.user) 
 
+"""
 class Comment(models.Model):
     event = models.ForeignKey(Event, related_name= "comments", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -71,5 +72,5 @@ class Comment(models.Model):
         return self.post.title + ' by ' + str(self.name)
 
 
-
+"""
 # Create your models here.
