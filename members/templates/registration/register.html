@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-{%  extends 'base.html' %}
-{% block title %}Sign Up{% endblock %}
+{% extends 'base.html' %} {% block title %}Sign Up{% endblock %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    {% block content %}
+    <center>
+      <div
+        class="border rounded p-1 mb-2"
+        style="background-color: #000066; text-align: center; width: 50%"
+      >
+        <center>
+          <h1 style="color: white">Sign Up</h1>
+        </center>
+        <div
+          class="border rounded p-1 mb-2"
+          style="padding: 5px; background-color: white; width: 100%"
+        >
+          <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %} {{ form.as_p }}
+            <button
+              class="btn btn-success"
+              style="background-color: #000066"
+              onClick="this.form.submit();this.disabled=true; this.value='Sending…';"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
+    </center>
 
-</head>
-<body>
-{% block content %}
-<h1>Sign Up</h1>
-    <form enctype="multipart/form-data" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button onClick="this.form.submit();this.disabled=true; this.value='Sending…';">Sign Up</button>
-
-    </form>
-
-{% endblock %}
-</body>
+    {% endblock %}
+  </body>
 </html>

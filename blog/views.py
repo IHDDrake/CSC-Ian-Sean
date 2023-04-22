@@ -44,7 +44,7 @@ class Detail(DetailView, FormView):
         context['form'] = RegistrationForm(user=self.request.user)
         try:
             context['regist'] = Registration.objects.filter(user=self.request.user, event=self.object).exists()    # noqa: E501
-            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)  
+            context['registR']= Registration.objects.filter(user=self.request.user, event=self.object)    # noqa: E501
             context['registResult']= Registration.objects.filter(event=self.object).order_by('ranking') # noqa: E501
         finally:
             return context
